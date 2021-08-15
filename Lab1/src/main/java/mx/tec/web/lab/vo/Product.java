@@ -9,7 +9,8 @@ public class Product {
 	private List<Sku> childSkus;
 	
 	/**
-	 * 
+	 * Each product can have one or more distinct SKUs, and is 
+	 * comprised of an ID, name, description and a list of its SKUs.
 	 */
 	public Product() {
 	}
@@ -28,56 +29,56 @@ public class Product {
 	}
 
 	/**
-	 * @return the id
+	 * @return the id of the product
 	 */
 	public String getId() {
 		return id;
 	}
 	
 	/**
-	 * @param id the id to set
+	 * @param id the id to set of the product
 	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 	
 	/**
-	 * @return the name
+	 * @return the name of the product
 	 */
 	public String getName() {
 		return name;
 	}
 	
 	/**
-	 * @param name the name to set
+	 * @param name the name to set of the product
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
 	/**
-	 * @return the description
+	 * @return the description of the product
 	 */
 	public String getDescription() {
 		return description;
 	}
 	
 	/**
-	 * @param description the description to set
+	 * @param description the description to set of the product
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 	
 	/**
-	 * @return the childSkus
+	 * @return the childSkus of the product
 	 */
 	public List<Sku> getChildSkus() {
 		return childSkus;
 	}
 	
 	/**
-	 * @param childSkus the childSkus to set
+	 * @param childSkus the childSkus to set of the product
 	 */
 	public void setChildSkus(List<Sku> childSkus) {
 		this.childSkus = childSkus;

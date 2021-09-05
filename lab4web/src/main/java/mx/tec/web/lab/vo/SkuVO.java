@@ -7,8 +7,13 @@
 package mx.tec.web.lab.vo;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.PositiveOrZero;
 
 import mx.tec.web.lab.validation.ValidSize;
+import mx.tec.web.lab.validation.ValidColor;
 
 /**
  * Sku Value Object to store the SKU attributtes
@@ -17,16 +22,28 @@ import mx.tec.web.lab.validation.ValidSize;
  */
 public class SkuVO {
 	private long id;
+	@ValidColor
 	@NotBlank(message = "Color is mandatory")
 	private String color;
 	@ValidSize
 	@NotBlank(message = "Size is mandatory")
 	private String size;
+	@NotNull
+	@Min(value = 0)
 	private double listPrice;
+	@NotNull
+	@Min(value = 0)
 	private double salePrice;
+	@PositiveOrZero
 	private long quantityOnHand;
+	@NotBlank(message = "Small image URL is mandatory")
+	@Pattern(regexp = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", message = "Please enter a valid URL")
 	private String smallImageUrl;
+	@NotBlank(message = "Medium image URL is mandatory")
+	@Pattern(regexp = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", message = "Please enter a valid URL")
 	private String mediumImageUrl;
+	@NotBlank(message = "Large image URL is mandatory")
+	@Pattern(regexp = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", message = "Please enter a valid URL")
 	private String largeImageUrl;
 
 	/**

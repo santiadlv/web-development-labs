@@ -9,7 +9,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Valid Size Constraint Interface
+ * Valid Color Constraint Interface
  * @author Santiago Alcerreca
  * @version 1.0
  */
@@ -17,21 +17,21 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD })
 @Constraint(validatedBy = SizeValidator.class)
-public @interface ValidSize {
+public @interface ValidColor {
 	/**
-	 * Default ValidSize interface message
+	 * Default ValidColor interface message
 	 * @return default message
 	 */
-	String message() default "Invalid size";
-	
+	String message() default "Invalid color";
+
 	/**
-	 * Default ValidSize interface groups
+	 * Default ValidColor interface groups
 	 * @return default groups
 	 */
 	Class<?>[] groups() default {};
 
 	/**
-	 * Default ValidSize interface payload
+	 * Default ValidColor interface payload
 	 * @return default payload
 	 */
 	Class<? extends Payload>[] payload() default {};

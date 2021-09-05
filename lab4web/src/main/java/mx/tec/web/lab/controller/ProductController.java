@@ -57,7 +57,7 @@ public class ProductController {
 	 */
 	@GetMapping("/products")
 	public ResponseEntity<List<ProductVO>> getProducts() {
-		log.debug("Getting all the products");
+		log.info("Getting all the products");
 		List<ProductVO> products = productManager.getProducts();
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}	
@@ -69,7 +69,7 @@ public class ProductController {
 	 */
 	@GetMapping("/products/{id}")
 	public ResponseEntity<ProductVO> getProduct(@PathVariable(value = "id") @Min(value = 0, message = "The id must be positive") long id) {
-		log.debug("Getting the product by id: {}", id);
+		log.info("Getting the product by id: {}", id);
 		ResponseEntity<ProductVO> responseEntity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		Optional<ProductVO> product = productManager.getProduct(id);
 		
@@ -89,6 +89,7 @@ public class ProductController {
 	 */
 	@GetMapping(value="/products", params="search")
 	public ResponseEntity<List<ProductVO>> getProducts(@RequestParam String search) {
+		log.info("Getting the product by name: {}", search);
 		List<ProductVO> products = productManager.getProducts(search);
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}	
@@ -100,6 +101,7 @@ public class ProductController {
 	 */
 	@PostMapping("/products")
 	public ResponseEntity<ProductVO> addProduct(@Valid @RequestBody ProductVO newProduct) {
+		log.info("Adding a product: {}", newProduct.getName());
 		ProductVO product = productManager.addProduct(newProduct);		
 		return new ResponseEntity<>(product, HttpStatus.CREATED);
 	}
@@ -112,12 +114,15 @@ public class ProductController {
 	 */
 	@PutMapping("/products/{id}")
 	public ResponseEntity<ProductVO> updateProduct(@PathVariable(value = "id") long id, @RequestBody ProductVO modifiedProduct) {
+		log.info("Updating a product by id: {}", id);
 		ResponseEntity<ProductVO> responseEntity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		Optional<ProductVO> product = productManager.getProduct(id);
 		
 		if (product.isPresent()) {
 			productManager.updateProduct(id, modifiedProduct);
 			responseEntity = new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			log.warn("Product to update with id {} not found ", id);
 		}
 		
 		return responseEntity;
@@ -130,6 +135,7 @@ public class ProductController {
 	 */
 	@DeleteMapping("/products/{id}")
 	public ResponseEntity<ProductVO> deleteProduct(@PathVariable(value = "id") long id) {
+		log.info("Deleting a product by id: {}", id);
 		ResponseEntity<ProductVO> responseEntity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		Optional<ProductVO> product = productManager.getProduct(id);
 		
@@ -141,12 +147,22 @@ public class ProductController {
 		return responseEntity;
 	}
 	
+	/**
+	 * Exception handler regarding the violation of constraints
+	 * @param cve Constraint Violation Exception
+	 * @return ResponseEntity response with a 400 bad request status and a message
+	 */
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> onConstraintViolationException(final ConstraintViolationException cve) {
     	log.error("Invalid parameter", cve);
         return new ResponseEntity<>(cve.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Exception handler regarding the validity of method arguments
+     * @param manve Method Argument Not Valid Exception
+     * @return ResponseEntity response with a 400 bad request status and an array with the found error
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> onMethodArgumentNotValidException(final MethodArgumentNotValidException manve) {
     	log.error("Invalid input", manve);
